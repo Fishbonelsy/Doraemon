@@ -1,5 +1,7 @@
-import 'package:doraemon_package/wang/view/home_page.dart';
+
 import 'package:flutter/material.dart';
+
+import 'core/view/home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: DogHomeWidget(),
+      home: FunctionsHomeWidget(),
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
