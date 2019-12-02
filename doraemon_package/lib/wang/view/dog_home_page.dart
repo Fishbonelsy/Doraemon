@@ -38,7 +38,6 @@ class DogMessageButtonWidget extends StatelessWidget {
       },
     );
   }
-
 }
 
 class DogMessageWidget extends StatelessWidget {
@@ -47,7 +46,22 @@ class DogMessageWidget extends StatelessWidget {
     return BlocBuilder<DogApiBloc, DogMessage>(
       builder: (BuildContext context, DogMessage message) {
         String dogMsg = message.content;
-        return Text("${dogMsg}");
+        return Container(
+          padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+          margin: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+          decoration: BoxDecoration(
+          color: Colors.lightBlueAccent,
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          ),
+          child: Text(
+            "${dogMsg}",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        );
       },
     );
   }
