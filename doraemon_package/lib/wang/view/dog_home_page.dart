@@ -46,23 +46,83 @@ class DogMessageWidget extends StatelessWidget {
     return BlocBuilder<DogApiBloc, DogMessage>(
       builder: (BuildContext context, DogMessage message) {
         String dogMsg = message.content;
-        return Container(
-          padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-          margin: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
-          decoration: BoxDecoration(
-          color: Colors.lightBlueAccent,
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          ),
-          child: Text(
-            "${dogMsg}",
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              decoration: TextDecoration.none,
-            ),
-          ),
-        );
+        return DogMessageAnimWidget(dogMsg);
       },
     );
+  }
+}
+
+class DogMessageAnimWidget extends StatefulWidget {
+  String msg = "test0";
+  DogMessageAnimState state;
+
+  DogMessageAnimWidget(String msg) {
+    this.msg = msg;
+//    state.update();
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    state = DogMessageAnimState();
+    return state;
+  }
+}
+
+class DogMessageAnimState extends State<DogMessageAnimWidget>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
+  String oldMsg;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+    animation = new Tween(begin: 0.0, end: 1.0).animate(controller)
+      ..addListener(() {
+        setState(() {
+
+        });
+      });
+    controller.forward();
+  }
+
+  void update() {
+    if(oldMsg != null && oldMsg != widget.msg) {
+      controller.reset();
+      controller.forward();
+    }
+    oldMsg = widget.msg;
+
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    update();
+    return Container(
+      width: 300 * animation.value,
+      height: 200 * animation.value,
+      padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+      margin: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.lightBlueAccent,
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      ),
+      child: Text(
+        "${widget.msg}",
+        style: TextStyle(
+          fontSize: 24,
+          color: Colors.white,
+          decoration: TextDecoration.none,
+        ),
+      ),
+    );
+  }
+
+  dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
