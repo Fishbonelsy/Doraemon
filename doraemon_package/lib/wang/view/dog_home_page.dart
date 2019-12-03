@@ -1,4 +1,5 @@
 import 'package:doraemon_package/wang/bloc/dog_api_bloc.dart';
+import 'package:doraemon_package/wang/helper/AudioPlayHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,11 +30,12 @@ class DogMessageButtonWidget extends StatelessWidget {
     // TODO: implement build
     return GestureDetector(
       child: Image.asset(
-        'images/wang_dog_icon.png',
-        width: 300,
-        height: 300,
+        'assets/images/wang_dog_icon.png',
+        width: 200,
+        height: 200,
       ),
       onTap: () {
+        AudioPlayHelper.getInstance().playLocal('audio/dog_wang_wang.wav');
         BlocProvider.of<DogApiBloc>(context).add(DogApiRequest());
       },
     );
@@ -78,44 +80,42 @@ class DogMessageAnimState extends State<DogMessageAnimWidget>
   void initState() {
     super.initState();
     controller = new AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
+        duration: const Duration(milliseconds: 200), vsync: this);
     animation = new Tween(begin: 0.0, end: 1.0).animate(controller)
       ..addListener(() {
-        setState(() {
-
-        });
+        setState(() {});
       });
     controller.forward();
   }
 
   void update() {
-    if(oldMsg != null && oldMsg != widget.msg) {
+    if (oldMsg != null && oldMsg != widget.msg) {
       controller.reset();
       controller.forward();
     }
     oldMsg = widget.msg;
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     update();
-    return Container(
-      width: 300 * animation.value,
-      height: 200 * animation.value,
-      padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-      margin: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
-      decoration: BoxDecoration(
-        color: Colors.lightBlueAccent,
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-      ),
-      child: Text(
-        "${widget.msg}",
-        style: TextStyle(
-          fontSize: 24,
-          color: Colors.white,
-          decoration: TextDecoration.none,
+    return ScaleTransition(
+      alignment: Alignment.bottomCenter,
+      scale: animation,
+      child: Container(
+        padding: EdgeInsets.only(left: 16, top: 10, right: 16, bottom: 10),
+        margin: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+        decoration: BoxDecoration(
+          color: Colors.lightBlueAccent,
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        ),
+        child: Text(
+          "${widget.msg}",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            decoration: TextDecoration.none,
+          ),
         ),
       ),
     );

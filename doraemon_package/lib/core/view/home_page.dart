@@ -11,7 +11,7 @@ class FunctionsHomeWidget extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             child: Image.asset(
-              'images/wang_dog_icon.png',
+              'assets/images/wang_dog_icon.png',
               width: 100,
               height: 100,
             ),
